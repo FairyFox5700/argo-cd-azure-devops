@@ -18,6 +18,8 @@ variables:
   dockerfilePath: '$(Build.SourcesDirectory)/worker/Dockerfile'
   tag: '$(Build.BuildId)'
 
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
 
 stages:
 - stage: Build
