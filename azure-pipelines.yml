@@ -12,10 +12,10 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'ba5d4958-ef2f-4a6c-bdf5-a1e952bf35ce'
+  dockerRegistryServiceConnection: 'db16a3e1-ccb4-4d44-83ce-4c04dee85b22'
   imageRepository: 'workerapp'
   containerRegistry: 'votingappaks.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/result/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)/worker/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
@@ -23,29 +23,19 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build
+  displayName: Build and push stage
   jobs:
   - job: Build
     displayName: Build
+    pool:
+      vmImage: $(vmImageName)
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
-        containerRegistry: '$(dockerRegistryServiceConnection)'
-        repository: '$(imageRepository)'
-        command: 'build'
-        Dockerfile: 'worker/Dockerfile'
-        tags: '$(tag)'
-- stage: Push
-  displayName: Push
-  jobs:
-  - job: Push
-    displayName: Push
-    steps:
-    - task: Docker@2
-      displayName: Push the Image 
-      inputs:
-        containerRegistry: '$(dockerRegistryServiceConnection)'
-        repository: '$(imageRepository)'
-        command: 'push'
-        tags: '$(tag)'
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
