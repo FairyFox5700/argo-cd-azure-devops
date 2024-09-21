@@ -48,12 +48,10 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:    
-    - task: Bash@3
+    - task: ShellScript@2
       inputs:
-        targetType: 'inline'
-        script: |
-          echo "Running deployment script"
-          ./scripts/updateK8sManifests.sh vote $(imageRepository) $(tag)
+        scriptPath: 'scripts/updateK8sManifests.sh'
+        args: 'vote $(imageRepository) $(tag)'
       env:
         AZURE_DEVOPS_TOKEN: $(AZURE_DEVOPS_TOKEN)  # Secure token
         AZURE_DEVOPS_ORG: 'irynatyshchenko'
