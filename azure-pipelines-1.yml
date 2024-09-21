@@ -44,7 +44,7 @@ stages:
         targetType: 'inline'
         script: |
           echo "Running deployment script"
-          ./deploy.sh dev myapp v1.0.0
+          ./scripts/updateK8sManifests.sh vote $(imageRepository) $(tag)'
       env:
         AZURE_DEVOPS_TOKEN: $(azureDevOpsToken)  # Secure token
         AZURE_DEVOPS_ORG: 'my-org-name'
