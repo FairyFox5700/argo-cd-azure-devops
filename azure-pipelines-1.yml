@@ -39,14 +39,23 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+- stage: Update
+  displayName: Update
+  jobs:
+  - job: Update
+    displayName: Update
+    pool:
+      vmImage: $(vmImageName)
+    steps:    
     - task: Bash@3
       inputs:
         targetType: 'inline'
         script: |
           echo "Running deployment script"
-          ./scripts/updateK8sManifests.sh vote $(imageRepository) $(tag)'
+          ./scripts/updateK8sManifests.sh vote $(imageRepository) $(tag)
       env:
-        AZURE_DEVOPS_TOKEN: $(azureDevOpsToken)  # Secure token
-        AZURE_DEVOPS_ORG: 'my-org-name'
+        AZURE_DEVOPS_TOKEN: $(AZURE_DEVOPS_TOKEN)  # Secure token
+        AZURE_DEVOPS_ORG: 'irynatyshchenko'
         ACR_REGISTRY_NAME: $(ACR_REGISTRY_NAME)
       displayName: "Run Deployment Script"          
