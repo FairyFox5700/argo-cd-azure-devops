@@ -39,3 +39,14 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo "Running deployment script"
+          ./deploy.sh dev myapp v1.0.0
+      env:
+        AZURE_DEVOPS_TOKEN: $(azureDevOpsToken)  # Secure token
+        AZURE_DEVOPS_ORG: 'my-org-name'
+        ACR_REGISTRY_NAME: $(ACR_REGISTRY_NAME)
+      displayName: "Run Deployment Script"          
