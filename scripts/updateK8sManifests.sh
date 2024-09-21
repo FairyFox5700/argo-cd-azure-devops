@@ -1,7 +1,9 @@
 #!/bin/bash
 
-set -x
+sed -i 's/\r$//' "$0"  # Only if this line is added at the start of the script
 
+# Fail immediately on any error
+set -x
 
 # Retrieve sensitive information from environment variables
 REPO_URL="https://${AZURE_DEVOPS_TOKEN}@dev.azure.com/${AZURE_DEVOPS_ORG}/voting-app/_git/voting-app"
