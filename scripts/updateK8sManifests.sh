@@ -1,7 +1,5 @@
 #!/bin/bash
 
-sed -i 's/\r$//' "$0"  # Only if this line is added at the start of the script
-
 # Fail immediately on any error
 set -x
 
