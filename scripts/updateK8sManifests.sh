@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Fail immediately on any error
-set -e
+set -x
+
 
 # Retrieve sensitive information from environment variables
 REPO_URL="https://${AZURE_DEVOPS_TOKEN}@dev.azure.com/${AZURE_DEVOPS_ORG}/voting-app/_git/voting-app"
+
 ACR_REGISTRY_NAME="$ACR_REGISTRY_NAME"
 
 # Clone the git repository into the /tmp directory
