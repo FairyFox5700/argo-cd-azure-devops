@@ -47,7 +47,14 @@ stages:
     displayName: Update
     pool:
       vmImage: $(vmImageName)
-    steps:    
+    steps:
+    - checkout: self
+      persistCredentials: true
+
+    - script: |
+        git config --global user.email pipeline@demo.com & git config --global user.name "Pipeline"
+      workingDirectory: $(System.DefaultWorkingDirectory)  
+    
     - task: ShellScript@2
       inputs:
         scriptPath: 'scripts/updateK8sManifests.sh'
