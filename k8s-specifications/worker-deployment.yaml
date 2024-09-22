@@ -17,3 +17,5 @@ spec:
       containers:
       - image: votingappaks/workerapp:138
         name: worker
+      imagePullSecrets:
+        - name: acr-secret
