@@ -15,7 +15,7 @@ spec:
         app: worker
     spec:
       containers:
-      - image: votingappaks/workerapp:138
+      - image: votingappaks.azurecr.io/workerapp:145
         name: worker
       imagePullSecrets:
         - name: acr-secret
