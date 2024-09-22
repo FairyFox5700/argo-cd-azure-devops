@@ -18,4 +18,4 @@ spec:
       - image: votingappaks.azurecr.io/workerapp:145
         name: worker
       imagePullSecrets:
-        - name: acr-secret
+        - name: argoaccess
