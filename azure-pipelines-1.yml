@@ -1,7 +1,7 @@
 trigger:
  paths:
    include:
-     - worker/*
+     - vote/*
 
 resources:
 - repo: self
