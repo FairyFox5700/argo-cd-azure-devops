@@ -50,8 +50,6 @@ stages:
     steps:
     - checkout: self
       persistCredentials: true
-
-    # Ensure lock file is removed and retry git config commands
     - script: |
         rm -f /home/vsts/.gitconfig.lock  # Remove any leftover lock files
         git config --global user.email pipeline@demo.com || (sleep 1 && git config --global user.email pipeline@demo.com)
