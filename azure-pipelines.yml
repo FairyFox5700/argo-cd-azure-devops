@@ -39,3 +39,32 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+- stage: Update
+  displayName: Update
+  jobs:
+  - job: Update
+    displayName: Update
+    pool:
+      vmImage: $(vmImageName)
+    variables:
+    - group: aks-group  # Linking the aks-group variable library
+    steps:
+    - checkout: self
+      persistCredentials: true
+    - script: |
+        rm -f /home/vsts/.gitconfig.lock  # Remove any leftover lock files
+        git config --global user.email pipeline@demo.com || (sleep 1 && git config --global user.email pipeline@demo.com)
+        git config --global user.name "Pipeline" || (sleep 1 && git config --global user.name "Pipeline")
+      workingDirectory: $(System.DefaultWorkingDirectory)
+      displayName: "Configure Git User"
+
+    - task: ShellScript@2
+      inputs:
+        scriptPath: 'scripts/updateK8sManifests.sh'
+        args: 'worker $(imageRepository) $(tag)'
+      env:
+        AZURE_DEVOPS_TOKEN: $(AZURE_DEVOPS_TOKEN)  # Secure token
+        AZURE_DEVOPS_ORG: 'irynatyshchenko'
+        ACR_REGISTRY_NAME: $(ACR_REGISTRY_NAME)
+      displayName: "Run Deployment Script"
